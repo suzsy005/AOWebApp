@@ -9,8 +9,11 @@ public partial class Item
     [Required]
     public int ItemId { get; set; }
 
+    [Required]
+    [StringLength(150)]
     public string ItemName { get; set; } = null!;
 
+    [Required]
     public string ItemDescription { get; set; } = null!;
 
     public decimal ItemCost { get; set; }
