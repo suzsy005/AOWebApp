@@ -9,7 +9,20 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+
+@* create cards *@
+<div class="card" style="width: 18rem;">
+    @foreach (var item in Model) {
+        <img src="@Html.DisplayFor(modelItem => item.ItemImage)" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    }
+</div>
+
+@* <table class="table">
     <thead>
         <tr>
             <th>
@@ -44,6 +57,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemImage)
+                <img src="item.ItemImage" class="img-thumbnail" alt="..." />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.CategoryId)
@@ -57,3 +71,4 @@
 }
     </tbody>
 </table>
+ *@
