@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AOWebApp.Models;
 
 public partial class Item
 {
+    [Required]
     public int ItemId { get; set; }
 
     public string ItemName { get; set; } = null!;
