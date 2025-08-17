@@ -23,6 +23,7 @@ public partial class Item
     [Required]
     public string ItemImage { get; set; } = null!;
 
+    [Required]
     public int CategoryId { get; set; }
 
     public virtual ItemCategory Category { get; set; } = null!;
