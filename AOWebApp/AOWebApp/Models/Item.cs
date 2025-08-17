@@ -16,8 +16,11 @@ public partial class Item
     [Required]
     public string ItemDescription { get; set; } = null!;
 
+    [Required]
+    [Range(0, 99999999.99)]
     public decimal ItemCost { get; set; }
 
+    [Required]
     public string ItemImage { get; set; } = null!;
 
     public int CategoryId { get; set; }
