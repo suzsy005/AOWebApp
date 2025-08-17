@@ -20,7 +20,15 @@
                     <div class="card-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
                         <p class="card-text">Category: @Html.DisplayFor(modelItem => item.Category.CategoryName)</p>
-                        <p class="card-text">Description: @Html.DisplayFor(modelItem => item.ItemDescription)</p>
+                        @{
+                            string shortDescription = item.ItemDescription;
+                            if (shortDescription != null && shortDescription.Length > 100)
+                            {
+                                shortDescription = shortDescription.Substring(1, 100) + "...";
+                            }
+                        }
+                        <p class="card-text">@shortDescription</p>
+                        @* <p class="card-text">Description: @Html.DisplayFor(modelItem => item.ItemDescription)</p> *@
                         @* <p class="card-text">@Html.DisplayFor(modelItem => item.ItemCost)</p> *@
                         <p class="card-text">@string.Format("{0:C}", item.ItemCost)</p>
 
