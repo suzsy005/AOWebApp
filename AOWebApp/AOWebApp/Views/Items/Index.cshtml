@@ -16,11 +16,14 @@
         @foreach (var item in Model)
         {
             <div class="col-md-4">
-                <img src="@Html.DisplayFor(modelItem => item.ItemImage)" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="card content-card border-dark">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayNameFor(model => model.ItemName)</h5>
+                        <p class="card-text">@Html.DisplayNameFor(model => model.ItemDescription)</p>
+                        <p class="card-text">@Html.DisplayNameFor(model => model.ItemCost)</p>
+                        <img src="@Html.DisplayFor(modelItem => item.ItemImage)" class="card-img-top" alt="...">
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
             </div> 
         }
