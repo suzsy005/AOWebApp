@@ -10,6 +10,16 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+@* set a form element, which contains 100 char limitation *@
+<div class="input-group">
+    <span class="input-group-text">Item Search</span>
+    <input type="text" class="form-control" placeholder="Type here..." />
+</div>
+<form class="form-inline">
+    <button class="btn btn-info" type="submit">Submit</button>
+    <button class="btn btn-danger" type="reset">Reset</button>
+</form>
+
 @* create cards *@
 <div class="container">
     <div class="row">
