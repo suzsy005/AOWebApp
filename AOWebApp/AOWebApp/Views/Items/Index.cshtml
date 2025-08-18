@@ -34,7 +34,7 @@
 
                         <img src="@Html.DisplayFor(modelItem => item.ItemImage)" class="card-img-top" alt="...">
                         <a href="#" class="btn btn-primary">Go somewhere</a>
-                        <a asp-controller="ItemsController" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.ItemId)">View Item Details</a>
+                        <a asp-controller="Items" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.ItemId)">View Item Details</a>
                     </div>
                 </div>
             </div> 
