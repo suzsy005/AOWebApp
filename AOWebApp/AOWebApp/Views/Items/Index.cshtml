@@ -18,8 +18,8 @@
             <div class="col-md-4">
                 <div class="card content-card border-dark">
                     <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.ItemName)</h5>
-                        <p class="card-text">Category: @Html.DisplayFor(modelItem => item.Category.CategoryName)</p>
+                        <h5 class="card-title">@item.ItemName</h5>
+                        <p class="card-text">Category: @item.Category.CategoryName</p>
                         @{
                             string shortDescription = item.ItemDescription;
                             if (shortDescription != null && shortDescription.Length > 100)
@@ -28,11 +28,9 @@
                             }
                         }
                         <p class="card-text">@shortDescription</p>
-                        @* <p class="card-text">Description: @Html.DisplayFor(modelItem => item.ItemDescription)</p> *@
-                        @* <p class="card-text">@Html.DisplayFor(modelItem => item.ItemCost)</p> *@
                         <p class="card-text">@string.Format("{0:C}", item.ItemCost)</p>
 
-                        <img src="@Html.DisplayFor(modelItem => item.ItemImage)" class="card-img-top" alt="...">
+                        <img src="@item.ItemImage" class="card-img-top" alt="...">
                         @* <a asp-controller="ItemsController" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.ItemId)">View Item Details</a> *@
                         <a asp-controller="Items" asp-action="Details" asp-route-id="@item.ItemId">View Item Details</a>
                     </div>
