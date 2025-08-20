@@ -19,6 +19,9 @@ namespace AOWebApp.Controllers
             _context = context;
         }
 
+        // Get: Items
+        // this appers when user comes to this Index page for the first time
+        // Items are ordered in ItemId
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -26,10 +29,18 @@ namespace AOWebApp.Controllers
             return View(await amazonOrder2025Context.ToListAsync());
         }
 
-        // GET: Items
+        // Post: Items
+        // the orders of Items turns into Alphabetical
         [HttpPost]
-        public async Task<IActionResult> Index(string searchText)
+        public async Task<IActionResult> Index(int category,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              string searchText)
         {
+            #region CategoriesQuery
+
+            #endregion
+
+            #region ItemQuery
+            ViewBag.SearchText = searchText;
+
             var amazonOrders2025Context = _context.Items
                 .Include(i => i.Category)
                 .OrderBy(i => i.ItemName)
@@ -39,13 +50,8 @@ namespace AOWebApp.Controllers
             {
                 amazonOrders2025Context = amazonOrders2025Context
                     .Where(i => i.ItemName.Contains(searchText));
-                if (amazonOrders2025Context == null)
-                {
-                    return View("No item with entered text");
-                }
-                
             }
-
+            #endregion
             return View(await amazonOrders2025Context.ToListAsync());
         }
 
