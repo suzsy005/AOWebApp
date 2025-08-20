@@ -39,6 +39,11 @@ namespace AOWebApp.Controllers
             {
                 amazonOrders2025Context = amazonOrders2025Context
                     .Where(i => i.ItemName.Contains(searchText));
+                if (amazonOrders2025Context == null)
+                {
+                    return View("No item with entered text");
+                }
+                
             }
 
             return View(await amazonOrders2025Context.ToListAsync());
