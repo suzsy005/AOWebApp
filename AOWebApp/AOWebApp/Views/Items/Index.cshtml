@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button class="btn btn-outline-success" asp-action="Create">Create New</button>
 </p>
 
 @* set a form element, which contains 100 char limitation *@
@@ -21,8 +21,15 @@
         @* <button class="btn btn-outline-danger m-2" type="reset">Reset</button> *@
         <button class="btn btn-outline-danger m-2" asp-controller="Items" asp-action="Index">Reset</button>
     </form>
+    
 </form>
-
+<select class="form-select" name="category" title="View items for a specific category">
+    <option selected>All Categories...</option>
+@foreach (var cate in Model)
+{
+        <option>@cate.Category.CategoryName</option>
+}
+</select>
 <div class="form-text">
     <h3>found: @Model.Count() items</h3>
 </div>
