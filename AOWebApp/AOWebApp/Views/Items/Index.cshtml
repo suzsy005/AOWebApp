@@ -43,8 +43,6 @@
                         }
                         <p class="card-text">@shortDescription</p>
                         <p class="card-text">@string.Format("{0:C}", item.ItemCost)</p>
-                        <p class="card-text">@item.ItemId</p>
-
 
                         <img src="@item.ItemImage" class="card-img-top" alt="...">
                         @* <a asp-controller="ItemsController" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.ItemId)">View Item Details</a> *@

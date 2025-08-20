@@ -19,7 +19,15 @@ namespace AOWebApp.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var amazonOrder2025Context = _context.Items.Include(i => i.Category);
+            return View(await amazonOrder2025Context.ToListAsync());
+        }
+
         // GET: Items
+        [HttpPost]
         public async Task<IActionResult> Index(string searchText)
         {
             var amazonOrders2025Context = _context.Items
