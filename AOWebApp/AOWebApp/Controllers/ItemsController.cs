@@ -20,9 +20,19 @@ namespace AOWebApp.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchText)
         {
-            var amazonOrders2025Context = _context.Items.Include(i => i.Category);
+            var amazonOrders2025Context = _context.Items
+                .Include(i => i.Category)
+                .OrderBy(i => i.ItemName)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                amazonOrders2025Context = amazonOrders2025Context
+                    .Where(i => i.ItemName.Contains(searchText));
+            }
+
             return View(await amazonOrders2025Context.ToListAsync());
         }
 
