@@ -58,6 +58,14 @@ namespace AOWebApp.Controllers
                     .Where(i => i.ItemName.Contains(searchText));
             }
             #endregion
+
+            if (categoryId.HasValue)
+            {
+                amazonOrders2025Context = amazonOrders2025Context.Where(i => i.Category.CategoryId == categoryId || i.Category.ParentCategoryId == categoryId);
+            }
+
+            amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
+
             return View(await amazonOrders2025Context.ToListAsync());
         }
 
