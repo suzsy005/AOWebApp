@@ -39,6 +39,11 @@ namespace AOWebApp.Controllers
 
             #endregion
 
+            ViewData["Categories"] = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
+                nameof(ItemCategory.CategoryId),
+                nameof(ItemCategory.CategoryName),
+                categoryId);
+
             #region ItemQuery
             ViewBag.SearchText = searchText;
 
