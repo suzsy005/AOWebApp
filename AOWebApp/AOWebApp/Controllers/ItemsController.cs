@@ -27,19 +27,37 @@ namespace AOWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? categoryId)
         {
-            var amazonOrders2025Categories = _context.ItemCategories.
-                Where(ic => !ic.ParentCategoryId.HasValue)
-                .OrderBy(ic => ic.CategoryName)
-                .Select(ic => new { ic.CategoryId, ic.CategoryName })
-                .ToList();
+            // create a new instance
+            var vm = new ItemSearchViewModel();
 
-            ViewBag.Categories = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(),
-                                     nameof(ItemCategory.CategoryId),
-                                     nameof(ItemCategory.CategoryName),
-                                     categoryId);
+            // category list
+            vm.CategoryList = new SelectList(
+                _context.ItemCategories
+                .Where(ic => ic.ParentCategoryId.HasValue)
+                .OrderBy(ic => ic.CategoryName),
+                nameof(ItemCategory.CategoryId),
+                nameof(ItemCategory.CategoryName),
+                categoryId
+             );
 
-            var amazonOrder2025Context = _context.Items.Include(i => i.Category);
-            return View(await amazonOrder2025Context.ToListAsync());
+            // item list
+            vm.ItemList = await _context.Items.Include(i => i.Category).ToListAsync();
+
+            return View(vm);
+
+            //var amazonOrders2025Categories = _context.ItemCategories.
+            //    Where(ic => !ic.ParentCategoryId.HasValue)
+            //    .OrderBy(ic => ic.CategoryName)
+            //    .Select(ic => new { ic.CategoryId, ic.CategoryName })
+            //    .ToList();
+
+            //ViewBag.Categories = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(),
+            //                         nameof(ItemCategory.CategoryId),
+            //                         nameof(ItemCategory.CategoryName),
+            //                         categoryId);
+
+            //var amazonOrder2025Context = _context.Items.Include(i => i.Category);
+            //return View(await amazonOrder2025Context.ToListAsync());
         }
 
         // Post: Items
