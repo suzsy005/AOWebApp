@@ -80,6 +80,17 @@ namespace AOWebApp.Controllers
                 .OrderBy(i => i.Category)
                 .AsQueryable();
 
+
+            // item rating
+            vm.ItemList = await items
+                .Select(i => new ItemRatingModel
+                {
+                    TheItem = i,
+                    ReviewCount = (i.Reviews != null ? i.Reviews.Count : 0),
+                    AverageRating = (i.Reviews != null && i.Reviews.Count() > 0 ? i.Reviews.Select(r = > r.Rating).Average() : 0)
+                })
+                .ToListAsync();
+
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 items = items.Where(i => i.ItemName.Contains(vm.SearchText));
