@@ -30,18 +30,15 @@
     }
 </select>
 
-
-
-
 <div class="form-text">
-    <h3>found: @Model.Count() items</h3>
+    <p>Found: @Model.Count() items</p>
 </div>
 
 <div class="form-text">
     @{
         if (Model.Count() == 0)
         {
-            <h3>Not found</h3>
+            <h3 class="text-danger">Ooops, no items matched your search</h3>
         }
     }
 </div>
