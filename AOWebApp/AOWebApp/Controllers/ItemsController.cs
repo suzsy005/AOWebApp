@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AOWebApp.Data;
 using AOWebApp.Models;
+using AOWebApp.ViewModels;
 
 namespace AOWebApp.Controllers
 {
@@ -44,7 +45,7 @@ namespace AOWebApp.Controllers
         // Post: Items
         // the orders of Items turns into Alphabetical
         [HttpPost]
-        public async Task<IActionResult> Index(string? searchText, int? categoryId)
+        public async Task<IActionResult> Index(ItemSearchViewModel vm)
         {
             #region CategoriesQuery
             var amazonOrders2025Categories = _context.ItemCategories.
@@ -53,32 +54,32 @@ namespace AOWebApp.Controllers
                 .Select(ic => new { ic.CategoryId, ic.CategoryName })
                 .ToList();
 
-            ViewBag.Categories = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
+            vm.CategoryList = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
                                      nameof(ItemCategory.CategoryId),
                                      nameof(ItemCategory.CategoryName),
-                                     categoryId);
+                                     vm.CategoryId);
             #endregion
 
             #region ItemQuery
-            ViewBag.SearchText = searchText;
+            //ViewBag.SearchText = SearchText;
             var amazonOrders2025Context = _context.Items
                 .Include(i => i.Category)
                 .OrderBy(i => i.ItemName)
                 .AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(searchText))
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 amazonOrders2025Context = amazonOrders2025Context
-                    .Where(i => i.ItemName.Contains(searchText));
+                    .Where(i => i.ItemName.Contains(vm.SearchText));
             }
 
-            if (categoryId.HasValue)
+            if (vm.CategoryId.HasValue)
             {
                 amazonOrders2025Context = amazonOrders2025Context
-                    .Where(i => i.Category.CategoryId == categoryId || i.Category.ParentCategoryId == categoryId);
+                    .Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
             }
 
-            //amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
+            amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
             #endregion
 
             return View(await amazonOrders2025Context.ToListAsync());
