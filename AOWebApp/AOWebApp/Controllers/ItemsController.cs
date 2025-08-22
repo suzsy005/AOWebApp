@@ -28,7 +28,7 @@ namespace AOWebApp.Controllers
         public async Task<IActionResult> Index(int? categoryId)
         {
             // create a new instance
-            var vm = new ItemSearchViewModel();
+            ItemSearchViewModel vm = new ItemSearchViewModel();
 
             // category list
             vm.CategoryList = new SelectList(

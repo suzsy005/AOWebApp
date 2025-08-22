@@ -4,6 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
+@if (Model == null)
+{
+    Model = new AOWebApp.ViewModels.ItemSearchViewModel();
+}
+
 <h1>Index</h1>
 
 <p>
@@ -28,12 +33,12 @@
 </form>
 
 <div class="form-text">
-    <p>Found: @Model.ItemList.Count() items</p>
+    <p>Found: @Model.ItemList != null ? Model.ItemList.Count() : 0) items</p>
 </div>
 
 <div class="form-text">
     @{
-        if (Model.ItemList.Count() == 0)
+        if (Model.ItemList == null || Model.ItemList.Count() == 0)
         {
             <h3 class="text-danger">Ooops, no items matched your search</h3>
         }
