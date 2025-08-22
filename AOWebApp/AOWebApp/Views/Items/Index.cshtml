@@ -11,18 +11,20 @@
 </p>
 
 <form method="post">
-    <div class="input-group">
+    <div class="input-group m-1">
         <span class="input-group-text">Item Search</span>
         <input type="text" class="form-control" asp-for="SearchText" title="Search by item name. Max 100 chars." maxlength="100" placeholder="Type here..." />
     </div>
+    
+
+    <select class="form-select m-1" asp-for="CategoryId" title="View items for a specific category" asp-items="Model.CategoryList">
+        <option selected value="">All Categories...</option>
+    </select>
+    
     <div class="form-inline">
         <button class="btn btn-outline-primary m-2" type="submit">Submit</button>
         <a asp-action="Index" class="btn btn-outline-danger">Reset</a>
     </div>
-
-    <select class="form-select" asp-for="CategoryId" title="View items for a specific category" asp-items="Model.CategoryList">
-        <option selected value="">All Categories...</option>
-    </select>
 </form>
 
 <div class="form-text">
