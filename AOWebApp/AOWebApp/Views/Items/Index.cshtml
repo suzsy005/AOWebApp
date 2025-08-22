@@ -22,7 +22,7 @@
     </form>
     
 </form>
-<select class="form-select" name="categoryId" title="View items for a specific category" asp-items="@ViewBag.Categories">
+<select class="form-select" asp-for="CategoryId" title="View items for a specific category" asp-items="Model.CategoryList">
     <option selected value="">All Categories...</option>
     @* @foreach (var cate in Model)
     {
