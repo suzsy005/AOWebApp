@@ -35,18 +35,20 @@ namespace AOWebApp.Controllers
         public async Task<IActionResult> Index(string? searchText, int? categoryId)
         {
             #region CategoriesQuery
-            var amazonOrders2025Categories = _context.ItemCategories.Where(i => i.ParentCategoryId == null);
-
-            #endregion
+            var amazonOrders2025Categories = _context.ItemCategories.
+                Where(ic => !ic.ParentCategoryId.HasValue)
+                .OrderBy(ic => ic.CategoryName)
+                .Select(ic => new { ic.CategoryId, ic.CategoryName })
+                .ToList();
 
             ViewData["Categories"] = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
-                nameof(ItemCategory.CategoryId),
-                nameof(ItemCategory.CategoryName),
-                categoryId);
+                                     nameof(ItemCategory.CategoryId),
+                                     nameof(ItemCategory.CategoryName),
+                                     categoryId);
+            #endregion
 
             #region ItemQuery
             ViewBag.SearchText = searchText;
-
             var amazonOrders2025Context = _context.Items
                 .Include(i => i.Category)
                 .OrderBy(i => i.ItemName)
@@ -57,14 +59,15 @@ namespace AOWebApp.Controllers
                 amazonOrders2025Context = amazonOrders2025Context
                     .Where(i => i.ItemName.Contains(searchText));
             }
-            #endregion
 
             if (categoryId.HasValue)
             {
-                amazonOrders2025Context = amazonOrders2025Context.Where(i => i.Category.CategoryId == categoryId || i.Category.ParentCategoryId == categoryId);
+                amazonOrders2025Context = amazonOrders2025Context
+                    .Where(i => i.Category.CategoryId == categoryId || i.Category.ParentCategoryId == categoryId);
             }
 
-            amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
+            //amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
+            #endregion
 
             return View(await amazonOrders2025Context.ToListAsync());
         }
