@@ -52,7 +52,7 @@ namespace AOWebApp.Controllers
                 {
                     TheItem = i,
                     ReviewCount = i.Reviews.Count(),
-                    AverageRating = (i.Reviews.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
+                    AverageRating = i.Reviews.Any() == true ? i.Reviews.Average(r => r.Rating) : 0
                 })
                 .ToListAsync();
 
@@ -94,17 +94,14 @@ namespace AOWebApp.Controllers
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
-                        {
-                            itemsQuery = itemsQuery.Where(i => i.ItemName.Contains(vm.SearchText));
-                        }
+            {
+                itemsQuery = itemsQuery.Where(i => i.ItemName.Contains(vm.SearchText));
+            }            
 
-                        if (vm.CategoryId.HasValue)
-                        {
-                            itemsQuery = itemsQuery.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
-                        }
-
-
-                        return View(vm);
+             if (vm.CategoryId.HasValue)
+             {
+                itemsQuery = itemsQuery.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
+             }                     
 
             // item list
             vm.ItemList = await itemsQuery
@@ -112,7 +109,7 @@ namespace AOWebApp.Controllers
                 {
                     TheItem = i,
                     ReviewCount = i.Reviews.Count(),
-                    AverageRating = (i.Reviews.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
+                    AverageRating = i.Reviews.Any() == true ? i.Reviews.Average(r => r.Rating) : 0
                 })
                 .OrderBy(ir => ir.TheItem.ItemName)
                 .ToListAsync();
