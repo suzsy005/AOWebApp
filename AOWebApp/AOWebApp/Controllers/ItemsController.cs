@@ -117,6 +117,8 @@ namespace AOWebApp.Controllers
                 .OrderBy(ir => ir.TheItem.ItemName)
                 .ToListAsync();
 
+            return View(vm);
+
             
 
             //#region CategoriesQuery
