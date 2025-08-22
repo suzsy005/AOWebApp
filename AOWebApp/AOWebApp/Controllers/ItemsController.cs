@@ -20,11 +20,23 @@ namespace AOWebApp.Controllers
         }
 
         // Get: Items
-        // this appers when user comes to this Index page for the first time
+        // this appears when user comes to this Index page for the first time
         // Items are ordered in ItemId
+        // was missing the ViewBag.Categories, that's why the categories list didn't display categories name but only "All Categories..." before input
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId)
         {
+            var amazonOrders2025Categories = _context.ItemCategories.
+                Where(ic => !ic.ParentCategoryId.HasValue)
+                .OrderBy(ic => ic.CategoryName)
+                .Select(ic => new { ic.CategoryId, ic.CategoryName })
+                .ToList();
+
+            ViewBag.Categories = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(),
+                                     nameof(ItemCategory.CategoryId),
+                                     nameof(ItemCategory.CategoryName),
+                                     categoryId);
+
             var amazonOrder2025Context = _context.Items.Include(i => i.Category);
             return View(await amazonOrder2025Context.ToListAsync());
         }
@@ -41,7 +53,7 @@ namespace AOWebApp.Controllers
                 .Select(ic => new { ic.CategoryId, ic.CategoryName })
                 .ToList();
 
-            ViewData["Categories"] = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
+            ViewBag.Categories = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
                                      nameof(ItemCategory.CategoryId),
                                      nameof(ItemCategory.CategoryName),
                                      categoryId);
