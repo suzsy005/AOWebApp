@@ -10,25 +10,20 @@
     <a class="btn btn-outline-success" asp-action="Create">Create New</a>
 </p>
 
-@* set a form element, which contains 100 char limitation *@
 <form method="post">
     <div class="input-group">
         <span class="input-group-text">Item Search</span>
         <input type="text" class="form-control" asp-for="SearchText" title="Search by item name. Max 100 chars." maxlength="100" placeholder="Type here..." />
     </div>
-    <form class="form-inline">
+    <div class="form-inline">
         <button class="btn btn-outline-primary m-2" type="submit">Submit</button>
         <a asp-action="Index" class="btn btn-outline-danger">Reset</a>
-    </form>
-    
+    </div>
+
+    <select class="form-select" asp-for="CategoryId" title="View items for a specific category" asp-items="Model.CategoryList">
+        <option selected value="">All Categories...</option>
+    </select>
 </form>
-<select class="form-select" asp-for="CategoryId" title="View items for a specific category" asp-items="Model.CategoryList">
-    <option selected value="">All Categories...</option>
-    @* @foreach (var cate in Model)
-    {
-        <option>@cate.Category.CategoryName</option>
-    } *@
-</select>
 
 <div class="form-text">
     <p>Found: @Model.ItemList.Count() items</p>
