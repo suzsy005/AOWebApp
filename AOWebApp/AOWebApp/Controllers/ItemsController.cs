@@ -33,7 +33,7 @@ namespace AOWebApp.Controllers
             // category list
             vm.CategoryList = new SelectList(
                 _context.ItemCategories
-                .Where(ic => ic.ParentCategoryId.HasValue)
+                .Where(ic => !ic.ParentCategoryId.HasValue)
                 .OrderBy(ic => ic.CategoryName),
                 nameof(ItemCategory.CategoryId),
                 nameof(ItemCategory.CategoryName),
@@ -51,8 +51,8 @@ namespace AOWebApp.Controllers
                 .Select(i => new ItemRatingViewModel
                 {
                     TheItem = i,
-                    ReviewCount = i.Reviews?.Count() ?? 0,
-                    AverageRating = (i.Reviews?.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
+                    ReviewCount = i.Reviews.Count(),
+                    AverageRating = (i.Reviews.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
                 })
                 .ToListAsync();
 
@@ -93,31 +93,31 @@ namespace AOWebApp.Controllers
                 .Include(i => i.Reviews)
                 .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
+                        {
+                            itemsQuery = itemsQuery.Where(i => i.ItemName.Contains(vm.SearchText));
+                        }
+
+                        if (vm.CategoryId.HasValue)
+                        {
+                            itemsQuery = itemsQuery.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
+                        }
+
+
+                        return View(vm);
 
             // item list
             vm.ItemList = await itemsQuery
                 .Select(i => new ItemRatingViewModel
                 {
                     TheItem = i,
-                    ReviewCount = i.Reviews?.Count() ?? 0,
-                    AverageRating = (i.Reviews?.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
+                    ReviewCount = i.Reviews.Count(),
+                    AverageRating = (i.Reviews.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
                 })
                 .OrderBy(ir => ir.TheItem.ItemName)
                 .ToListAsync();
 
-            if (!string.IsNullOrWhiteSpace(vm.SearchText))
-            {
-                itemsQuery = itemsQuery.Where(i => i.ItemName.Contains(vm.SearchText));
-            }
-
-            if (vm.CategoryId.HasValue)
-            {
-                itemsQuery = itemsQuery.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
-            }
-
-
-            return View(vm);
-
+            
 
             //#region CategoriesQuery
             //var amazonOrders2025Categories = _context.ItemCategories.

@@ -12,6 +12,6 @@ namespace AOWebApp.ViewModels
 
         public SelectList CategoryList { get; set; }
 
-        public List<Item> ItemList { get; set; }
+        public List<ItemRatingViewModel> ItemList { get; set; }
     }
 }
