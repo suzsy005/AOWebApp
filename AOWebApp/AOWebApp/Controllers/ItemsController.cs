@@ -87,7 +87,7 @@ namespace AOWebApp.Controllers
                 {
                     TheItem = i,
                     ReviewCount = (i.Reviews != null ? i.Reviews.Count : 0),
-                    AverageRating = (i.Reviews != null && i.Reviews.Count() > 0 ? i.Reviews.Select(r = > r.Rating).Average() : 0)
+                    AverageRating = (i.Reviews != null && i.Reviews.Count() > 0 ? i.Reviews.Select(r => r.Rating).Average() : 0)
                 })
                 .ToListAsync();
 

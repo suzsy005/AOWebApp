@@ -1,4 +1,4 @@
-﻿@model AOWebApp.ViewModels.ItemSearchViewModel
+﻿@model AOWebApp.ViewModels
 
 @{
     ViewData["Title"] = "Index";
@@ -60,9 +60,18 @@
                         }
                         <p class="card-text">@shortDescription</p>
                         <p class="card-text">@string.Format("{0:C}", item.ItemCost)</p>
-
+                        <p class="card-text">
+                            Rating:
+                            @if (item.ReviewCount > 0)
+                            {
+                                <span>@item.AverageRating across @item.ReviewCount Reviews</span>
+                            }
+                            else
+                            {
+                                <span>This item has not reviewed</span>
+                            }
+                        </p>
                         <img src="@item.ItemImage" class="card-img-top" alt="...">
-                        @* <a asp-controller="ItemsController" asp-action="Details" asp-route-id="@Html.DisplayFor(modelItem => item.ItemId)">View Item Details</a> *@
                         <a asp-controller="Items" asp-action="Details" asp-route-id="@item.ItemId">View Item Details</a>
                     </div>
                 </div>
