@@ -40,8 +40,21 @@ namespace AOWebApp.Controllers
                 categoryId
              );
 
+            // item query
+            var itemsQuery = _context.Items
+                .Include(i => i.Category)
+                .Include(i => i.Reviews)
+                .AsQueryable();
+
             // item list
-            vm.ItemList = await _context.Items.Include(i => i.Category).ToListAsync();
+            vm.ItemList = await itemsQuery
+                .Select(i => new ItemRatingViewModel
+                {
+                    TheItem = i,
+                    ReviewCount = i.Reviews?.Count() ?? 0,
+                    AverageRating = (i.Reviews?.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
+                })
+                .ToListAsync();
 
             return View(vm);
 
@@ -75,33 +88,33 @@ namespace AOWebApp.Controllers
             );
 
             // item query
-            var items = _context.Items
+            var itemsQuery = _context.Items
                 .Include(i => i.Category)
-                .OrderBy(i => i.Category)
+                .Include(i => i.Reviews)
                 .AsQueryable();
 
 
-            // item rating
-            vm.ItemList = await items
+            // item list
+            vm.ItemList = await itemsQuery
                 .Select(i => new ItemRatingViewModel
                 {
                     TheItem = i,
-                    ReviewCount = (i.Reviews != null ? i.Reviews.Count : 0),
-                    AverageRating = (i.Reviews != null && i.Reviews.Count() > 0 ? i.Reviews.Select(r => r.Rating).Average() : 0)
+                    ReviewCount = i.Reviews?.Count() ?? 0,
+                    AverageRating = (i.Reviews?.Any() == true) ? i.Reviews.Average(r => r.Rating) : 0
                 })
+                .OrderBy(ir => ir.TheItem.ItemName)
                 .ToListAsync();
 
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
-                items = items.Where(i => i.ItemName.Contains(vm.SearchText));
+                itemsQuery = itemsQuery.Where(i => i.ItemName.Contains(vm.SearchText));
             }
 
             if (vm.CategoryId.HasValue)
             {
-                items = items.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
+                itemsQuery = itemsQuery.Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
             }
 
-            vm.ItemList = await items.ToListAsync();
 
             return View(vm);
 
