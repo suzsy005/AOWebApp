@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AOWebApp.ViewModels
 {
-    public class ItemRatingModel
+    public class ItemRatingViewModel
     {
         // to hold the actual item being displayed
         public Item TheItem { get; set; }

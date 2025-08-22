@@ -83,7 +83,7 @@ namespace AOWebApp.Controllers
 
             // item rating
             vm.ItemList = await items
-                .Select(i => new ItemRatingModel
+                .Select(i => new ItemRatingViewModel
                 {
                     TheItem = i,
                     ReviewCount = (i.Reviews != null ? i.Reviews.Count : 0),
