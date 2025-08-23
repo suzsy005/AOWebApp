@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AOWebApp.Data;
 using AOWebApp.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AOWebApp.Controllers
 {
@@ -20,10 +21,13 @@ namespace AOWebApp.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchText, string Suburb)
         {
-            var amazonOrders2025Context = _context.Customers.Include(c => c.Address);
-            return View(await amazonOrders2025Context.ToListAsync());
+            List <Customer> CustomerList = new List<Customer> ();
+            return View(CustomerList);
+
+            //var amazonOrders2025Context = _context.Customers.Include(c => c.Address);
+            //return View(await amazonOrders2025Context.ToListAsync());
         }
 
         // GET: Customers/Details/5

@@ -11,13 +11,13 @@
 </p>
 
 
-<form method="post">
+@* <form method="post"> *@
     <div class="input-group">
         <span class="input-group-text">Customer Name</span>
-        <input type="text" class="form-control" @* asp-for="SearchCustomerName" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
+        <input type="text" class="form-control" @* asp-for="SearchText" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
     </div>
 
-    <select class="form-select m-1" @* asp-for="Suburb" *@>
+    <select class="form-select m-1" @* asp-for="Suburb *@">
         <option selected value="">All Suburbs</option>
     </select>
 
@@ -25,8 +25,7 @@
         <buttn class="btn btn-outline-success m-2" typeof="submit">Search Customer</buttn>
         <a asp-action="Index" class="btn btn btn-outline-danger">Reset</a>
     </div>
-
-</form>
+@* </form> *@
 
 
 <table class="table">
