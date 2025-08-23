@@ -26,6 +26,20 @@ namespace AOWebApp.Controllers
             List <Customer> CustomerList = new List<Customer> ();
             return View(CustomerList);
 
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                var query = _context.Customers
+                    .Include(c => c.Address)
+                    .Where(c => c.FirstName.StartsWith(SearchText) || c.LastName.StartsWith(SearchText))
+                    .OrderBy(c => !c.FirstName.StartsWith(SearchText))
+                    .ThenBy(c => !c.LastName.StartsWith(SearchText));
+
+                CustomerList = await  query.ToListAsync();
+            }
+
+            return View(CustomerList);
+
+
             //var amazonOrders2025Context = _context.Customers.Include(c => c.Address);
             //return View(await amazonOrders2025Context.ToListAsync());
         }
