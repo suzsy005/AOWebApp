@@ -44,8 +44,11 @@ namespace AOWebApp.Controllers
 
             // Suburb list
             var SuburbList = new SelectList(
-                _context.Customers
-                .Where(s => ))
+                _context.Addresses
+                .Where(s => s.Suburb.HasValue)
+                .OrderBy(s => s.Suburb),
+                nameof(Address.Postcode),
+                nameof(Address.Suburb));
 
 
             return View(CustomerList);
