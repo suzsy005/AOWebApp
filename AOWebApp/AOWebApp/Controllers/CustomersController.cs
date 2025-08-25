@@ -37,18 +37,30 @@ namespace AOWebApp.Controllers
                 CustomerList = await  query.ToListAsync();
             }
 
-            // Suburb query
-            var suburbQuery = _context.Customers
-                .Include(s => s.Address)
-                .AsQueryable();
+            #region Suburb Query
+            var SuburbList = _context.Addresses
+                .Select(a => a.Suburb)
+                .Distinct()
+                .OrderBy(a => a)
+                .ToList();
 
-            // Suburb list
-            var SuburbList = new SelectList(
-                _context.Addresses
-                .Where(s => s.Suburb.HasValue)
-                .OrderBy(s => s.Suburb),
-                nameof(Address.Postcode),
-                nameof(Address.Suburb));
+            ViewBag.Suburb = new SelectList(SuburbList, Suburb);
+            #endregion
+
+            
+
+            //// Suburb query
+            //var suburbQuery = _context.Customers
+            //    .Include(s => s.Address)
+            //    .AsQueryable();
+
+            //// Suburb list
+            //var SuburbList = new SelectList(
+            //    _context.Addresses
+            //    .Where(s => s.Suburb.HasValue)
+            //    .OrderBy(s => s.Suburb),
+            //    nameof(Address.Postcode),
+            //    nameof(Address.Suburb));
 
 
             return View(CustomerList);

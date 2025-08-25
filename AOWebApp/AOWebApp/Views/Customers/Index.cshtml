@@ -17,14 +17,16 @@
         <input type="text" class="form-control" @* asp-for="SearchText" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
     </div>
 
-    <select class="form-select m-1" @* asp-for="Suburb *@">
-        <option selected value="">All Suburbs</option>
+    <select class="form-select m-1" asp-items="@ViewBag.SuburbList">
+        <option selected value="">All Suburbs...</option>
     </select>
 
     <div class="form-inline">
         <buttn class="btn btn-outline-success m-2" typeof="submit">Search Customer</buttn>
         <a asp-action="Index" class="btn btn btn-outline-danger">Reset</a>
     </div>
+
+
 @* </form> *@
 
 
