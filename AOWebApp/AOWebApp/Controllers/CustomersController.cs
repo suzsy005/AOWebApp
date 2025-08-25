@@ -24,8 +24,8 @@ namespace AOWebApp.Controllers
         public async Task<IActionResult> Index(string SearchText, string Suburb)
         {
             List <Customer> CustomerList = new List<Customer> ();
-            return View(CustomerList);
 
+            // Customer Name Search query
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 var query = _context.Customers
@@ -36,6 +36,17 @@ namespace AOWebApp.Controllers
 
                 CustomerList = await  query.ToListAsync();
             }
+
+            // Suburb query
+            var suburbQuery = _context.Customers
+                .Include(s => s.Address)
+                .AsQueryable();
+
+            // Suburb list
+            var SuburbList = new SelectList(
+                _context.Customers
+                .Where(s => ))
+
 
             return View(CustomerList);
 
