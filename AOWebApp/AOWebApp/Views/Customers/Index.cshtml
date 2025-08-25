@@ -11,23 +11,23 @@
 </p>
 
 
-@* <form method="post"> *@
+<form method="post" asp-action="Index" asp-controller="Customers" class="row form-group"> 
     <div class="input-group">
         <span class="input-group-text">Customer Name</span>
-        <input type="text" class="form-control" @* asp-for="SearchText" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
+        <input type="text" name="SearchText" class="form-control" @* asp-for="SearchText" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
     </div>
 
-    <select class="form-select m-1" asp-items="@ViewBag.SuburbList">
+    <select class="form-control m-1" asp-items="@ViewBag.SuburbList">
         <option selected value="">All Suburbs...</option>
     </select>
 
     <div class="form-inline">
-        <buttn class="btn btn-outline-success m-2" typeof="submit">Search Customer</buttn>
+        <buttn type="submit" class="btn btn-outline-success m-2">Search Customer</buttn>
         <a asp-action="Index" class="btn btn btn-outline-danger">Reset</a>
     </div>
 
 
-@* </form> *@
+</form>
 
 
 <table class="table">
