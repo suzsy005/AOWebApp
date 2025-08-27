@@ -54,6 +54,7 @@ namespace AOWebApp.Controllers
 
                 CustomerList = await  query.ToListAsync();
             }
+            #endregion
 
             //// Suburb query
             //var suburbQuery = _context.Customers
