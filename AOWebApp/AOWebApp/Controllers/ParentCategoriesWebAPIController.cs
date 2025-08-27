@@ -12,37 +12,23 @@ namespace AOWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemsWebAPIController : ControllerBase
+    public class ParentCategoriesWebAPIController : ControllerBase
     {
         private readonly AmazonOrders2025Context _context;
 
-        public ItemsWebAPIController(AmazonOrders2025Context context)
+        public ParentCategoriesWebAPIController(AmazonOrders2025Context context)
         {
             _context = context;
         }
 
-        // GET: api/ItemsWebAPI
+        // GET: api/ParentCategoriesWebAPI
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItems(string? SearchText, int? CategoryID)
+        public async Task<ActionResult<IEnumerable<Item>>> GetItems()
         {
-            var query = _context.Items
-                .OrderBy(i => i.ItemName)
-                .AsQueryable();
-
-            if (!string.IsNullOrEmpty(SearchText))
-            {
-                query = query.Where(i => i.ItemName.Contains(SearchText));
-            }
-            
-            if (CategoryID.HasValue)
-            {
-                query = query.Where(i => i.Category.ParentCategoryId == CategoryID);
-            }
-
-            return await query.ToListAsync();
+            return await _context.Items.ToListAsync();
         }
 
-        // GET: api/ItemsWebAPI/5
+        // GET: api/ParentCategoriesWebAPI/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Item>> GetItem(int id)
         {
@@ -56,7 +42,7 @@ namespace AOWebApp.Controllers
             return item;
         }
 
-        // PUT: api/ItemsWebAPI/5
+        // PUT: api/ParentCategoriesWebAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutItem(int id, Item item)
@@ -87,7 +73,7 @@ namespace AOWebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/ItemsWebAPI
+        // POST: api/ParentCategoriesWebAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Item>> PostItem(Item item)
@@ -98,7 +84,7 @@ namespace AOWebApp.Controllers
             return CreatedAtAction("GetItem", new { id = item.ItemId }, item);
         }
 
-        // DELETE: api/ItemsWebAPI/5
+        // DELETE: api/ParentCategoriesWebAPI/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
