@@ -29,7 +29,7 @@ public partial class Customer
         {
             var contact = "";
             if (!string.IsNullOrWhiteSpace(MainPhoneNumber)) { contact = MainPhoneNumber; }
-            if (!string.IsNullOrWhiteSpace(SecondaryPhoneNumber)) { contact += (contact.Length > 0 ? "<br />" : "") + SecondaryPhoneNumber; }
+            if (!string.IsNullOrWhiteSpace(SecondaryPhoneNumber)) { contact += (contact.Length > 0 ? " / " : "") + SecondaryPhoneNumber; }
             return contact;
         }
     }

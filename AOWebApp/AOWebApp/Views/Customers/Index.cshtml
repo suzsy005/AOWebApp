@@ -41,7 +41,10 @@
 </form>
  *@
 
-<table class="table">
+
+@if (Model.CustomerList != null && Model.CustomerList.Any())
+{
+    <table class="table">
     <thead>
         <tr>
             <th>
@@ -60,14 +63,15 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.CustomerList) {
+    @foreach (var item in Model.CustomerList) 
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
-            </td>>
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ContactNumber)
             </td>
@@ -75,11 +79,12 @@
                 @Html.DisplayFor(modelItem => item.Address.AddressId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> 
                 <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
             </td>
         </tr>
     }
     </tbody>
-</table>
+    </table>
+}
