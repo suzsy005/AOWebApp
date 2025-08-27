@@ -61,46 +61,7 @@ namespace AOWebApp.Controllers
             }
             #endregion
 
-            //List<Customer> CustomerList = new List<Customer>();
-
-            //if (!string.IsNullOrWhiteSpace(SearchText))
-            //{
-            //    var query = _context.Customers
-            //        .Include(c => c.Address)
-            //        .Where(c => c.FirstName.StartsWith(SearchText) || c.LastName.StartsWith(SearchText));
-
-
-            //    if (!string.IsNullOrEmpty(Suburb))
-            //    {
-            //        query = query.Where(c => c.Address.Suburb == Suburb);
-            //    }
-
-            //    query = query
-            //        .OrderBy(c => !c.FirstName.StartsWith(SearchText))
-            //        .ThenBy(c => !c.LastName.StartsWith(SearchText));
-
-            //    CustomerList = await  query.ToListAsync();
-            //}
-
-            //// Suburb query
-            //var suburbQuery = _context.Customers
-            //    .Include(s => s.Address)
-            //    .AsQueryable();
-
-            //// Suburb list
-            //var SuburbList = new SelectList(
-            //    _context.Addresses
-            //    .Where(s => s.Suburb.HasValue)
-            //    .OrderBy(s => s.Suburb),
-            //    nameof(Address.Postcode),
-            //    nameof(Address.Suburb));
-
-
             return View(CustomerList);
-
-
-            //var amazonOrders2025Context = _context.Customers.Include(c => c.Address);
-            //return View(await amazonOrders2025Context.ToListAsync());
         }
 
         // GET: Customers/Details/5

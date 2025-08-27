@@ -116,44 +116,6 @@ namespace AOWebApp.Controllers
 
             return View(vm);
 
-            
-
-            //#region CategoriesQuery
-            //var amazonOrders2025Categories = _context.ItemCategories.
-            //    Where(ic => !ic.ParentCategoryId.HasValue)
-            //    .OrderBy(ic => ic.CategoryName)
-            //    .Select(ic => new { ic.CategoryId, ic.CategoryName })
-            //    .ToList();
-
-            //vm.CategoryList = new SelectList(amazonOrders2025Categories.Select(i => i).ToList(), 
-            //                         nameof(ItemCategory.CategoryId),
-            //                         nameof(ItemCategory.CategoryName),
-            //                         vm.CategoryId);
-            //#endregion
-
-            //#region ItemQuery
-            ////ViewBag.SearchText = SearchText;
-            //var amazonOrders2025Context = _context.Items
-            //    .Include(i => i.Category)
-            //    .OrderBy(i => i.ItemName)
-            //    .AsQueryable();
-
-            //if (!string.IsNullOrWhiteSpace(vm.SearchText))
-            //{
-            //    amazonOrders2025Context = amazonOrders2025Context
-            //        .Where(i => i.ItemName.Contains(vm.SearchText));
-            //}
-
-            //if (vm.CategoryId.HasValue)
-            //{
-            //    amazonOrders2025Context = amazonOrders2025Context
-            //        .Where(i => i.Category.CategoryId == vm.CategoryId || i.Category.ParentCategoryId == vm.CategoryId);
-            //}
-
-            //amazonOrders2025Context = amazonOrders2025Context.OrderBy(i => i.ItemName);
-            //#endregion
-
-            //return View(await amazonOrders2025Context.ToListAsync());
         }
 
         // GET: Items/Details/5
