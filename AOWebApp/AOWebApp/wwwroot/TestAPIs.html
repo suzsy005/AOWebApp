@@ -6,12 +6,37 @@
 </head>
 <body>
     <h3>Category List</h3>
-
-
-
+    <ul id="categoryList"></ul>
 
 
     <h3>Item List</h3>
+    <ul id="itemList"></ul>
+
+    <script>
+        fetch('/api/ParentCategoriesWebAPI')
+            .then((response) => response.json())
+            .then(data => {
+                let ul = document.querySelector('#categoryList');
+
+                data.forEach(c => {
+                    let li = document.createElement("li");
+                    li.innerText = c.categoryName
+                    ul.appendChild(li);
+                })
+            })
+
+        fetch('/api/ItemsWebAPI')
+            .then((response) => response.json())
+            .then(data => {
+                let ul = document.querySelector('#itemList');
+
+                data.forEach(c => {
+                    let li = document.createElement("li");
+                    li.innerText = c.itemName
+                    ul.appendChild(li);
+                })
+            })
+    </script>
 
 </body>
 </html>
