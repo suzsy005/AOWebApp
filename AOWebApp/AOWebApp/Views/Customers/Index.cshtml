@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AOWebApp.Models.Customer>
+﻿@* @model IEnumerable<AOWebApp.Models.Customer> *@
+@model AOWebApp.ViewModels.CustomerSearchViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,8 +11,20 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+<form method="post">
+    <div class="input-group mb-3">
+        <span class="input-group-text">User Search</span>
+        <input type="text" class="form-control" asp-for="@Model.SearchText" title="Search by customer name" placeholder="Type Customer Name here..." value="@Model.SearchText"/>
+        <select asp-for="@Model.Suburb" class="form-control" asp-items="@Model.SuburbList">
+            <option value="">All Suburbs...</option>
+        </select>
+    </div>
 
-<form method="post" asp-action="Index" asp-controller="Customers" class="row form-group"> 
+    <input type="submit" class="btn btn-outline-primary" value="Submit" />
+    <a asp-action="Index" class="btn btn-outline-danger">Reset</a>
+</form>
+
+@* <form method="post" asp-action="Index" asp-controller="Customers" class="row form-group"> 
     <div class="input-group">
         <span class="input-group-text">Customer Name</span>
         <input type="text" name="SearchText" class="form-control" title="Search by customer name" placeholder="Type Customer Name here..." />
@@ -22,32 +35,32 @@
     </select>
 
     <div class="form-inline">
-        <buttn type="submit" class="btn btn-outline-success m-2">Search Customer</buttn>
+        <buttn class="btn btn-outline-success m-2" type="submit">Search Customer</buttn>
         <a asp-action="Index" class="btn btn btn-outline-danger">Reset</a>
     </div>
 </form>
-
+ *@
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.CustomerList.First().FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.CustomerList.First().Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactNumber)
+                @Html.DisplayNameFor(model => model.CustomerList.First().ContactNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.CustomerList.First().Address)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (var item in Model.CustomerList) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
