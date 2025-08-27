@@ -14,7 +14,7 @@
 <form method="post" asp-action="Index" asp-controller="Customers" class="row form-group"> 
     <div class="input-group">
         <span class="input-group-text">Customer Name</span>
-        <input type="text" name="SearchText" class="form-control" @* asp-for="SearchText" *@ title="Search by customer name" placeholder="Type Customer Name here..." />
+        <input type="text" name="SearchText" class="form-control" title="Search by customer name" placeholder="Type Customer Name here..." />
     </div>
 
     <select class="form-control m-1" asp-items="@ViewBag.SuburbList">
