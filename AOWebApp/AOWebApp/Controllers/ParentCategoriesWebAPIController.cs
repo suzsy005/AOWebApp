@@ -23,36 +23,40 @@ namespace AOWebApp.Controllers
 
         // GET: api/ParentCategoriesWebAPI
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItems()
+        public async Task<ActionResult<IEnumerable<ItemCategory>>> GetItemCategories()
         {
-            return await _context.Items.ToListAsync();
+            var categoryList = _context.ItemCategories
+                .Where(ic => ic.ParentCategoryId == null)
+                .OrderBy(ic => ic.CategoryName);
+
+            return await categoryList.ToListAsync();
         }
 
         // GET: api/ParentCategoriesWebAPI/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetItem(int id)
+        public async Task<ActionResult<ItemCategory>> GetItemCategory(int id)
         {
-            var item = await _context.Items.FindAsync(id);
+            var itemCategory = await _context.ItemCategories.FindAsync(id);
 
-            if (item == null)
+            if (itemCategory == null)
             {
                 return NotFound();
             }
 
-            return item;
+            return itemCategory;
         }
 
         // PUT: api/ParentCategoriesWebAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItem(int id, Item item)
+        public async Task<IActionResult> PutItemCategory(int id, ItemCategory itemCategory)
         {
-            if (id != item.ItemId)
+            if (id != itemCategory.CategoryId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(item).State = EntityState.Modified;
+            _context.Entry(itemCategory).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +64,7 @@ namespace AOWebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ItemExists(id))
+                if (!ItemCategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -76,33 +80,33 @@ namespace AOWebApp.Controllers
         // POST: api/ParentCategoriesWebAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Item>> PostItem(Item item)
+        public async Task<ActionResult<ItemCategory>> PostItemCategory(ItemCategory itemCategory)
         {
-            _context.Items.Add(item);
+            _context.ItemCategories.Add(itemCategory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetItem", new { id = item.ItemId }, item);
+            return CreatedAtAction("GetItemCategory", new { id = itemCategory.CategoryId }, itemCategory);
         }
 
         // DELETE: api/ParentCategoriesWebAPI/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItem(int id)
+        public async Task<IActionResult> DeleteItemCategory(int id)
         {
-            var item = await _context.Items.FindAsync(id);
-            if (item == null)
+            var itemCategory = await _context.ItemCategories.FindAsync(id);
+            if (itemCategory == null)
             {
                 return NotFound();
             }
 
-            _context.Items.Remove(item);
+            _context.ItemCategories.Remove(itemCategory);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ItemExists(int id)
+        private bool ItemCategoryExists(int id)
         {
-            return _context.Items.Any(e => e.ItemId == id);
+            return _context.ItemCategories.Any(e => e.CategoryId == id);
         }
     }
 }
