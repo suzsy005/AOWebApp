@@ -76,7 +76,13 @@
                 @Html.DisplayFor(modelItem => item.ContactNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address.AddressId)
+                @if (item.Address != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Address.AddressLine)
+                    <span>@item.Address.Suburb</span>
+                    <span>@Html.DisplayFor(modelItem => item.Address.Postcode)</span>
+                    <span>@item.Address.Region</span>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a>
