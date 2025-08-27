@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using AOWebApp.Data;
 using AOWebApp.Models;
 using System.Reflection.Metadata.Ecma335;
+using AOWebApp.ViewModels;
+using System.Runtime.Intrinsics.X86;
 
 namespace AOWebApp.Controllers
 {
@@ -21,7 +23,7 @@ namespace AOWebApp.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string SearchText, string Suburb)
+        public async Task<IActionResult> Index(CustomerSearchViewModel vm)
         {
             #region Suburb Query
             var SuburbList = _context.Addresses
@@ -30,30 +32,30 @@ namespace AOWebApp.Controllers
                 .OrderBy(a => a)
                 .ToList();
 
-            ViewBag.Suburb = new SelectList(SuburbList, Suburb);
+            ViewBag.Suburb = new SelectList(SuburbList, vm.Suburb);
             #endregion
 
             #region Customer Query
             List<Customer> CustomerList = new List<Customer>();
-            if (!string.IsNullOrWhiteSpace(SearchText))
+            if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
                 var query = _context.Customers
                     .Include(c => c.Address)
-                    .Where(c => SearchText.Split().Length > 1
-                    ? c.FirstName.Equals(SearchText.Split()[0]) && c.LastName.Equals(SearchText.Split()[1])
-                    : c.FirstName.StartsWith(SearchText) || c.LastName.StartsWith(SearchText));
+                    .Where(c => vm.SearchText.Split().Length > 1
+                    ? c.FirstName.Equals(vm.SearchText.Split()[0]) && c.LastName.Equals(vm.SearchText.Split()[1])
+                    : c.FirstName.StartsWith(vm.SearchText) || c.LastName.StartsWith(vm.SearchText));
 
-                if (!string.IsNullOrEmpty(Suburb))
+                if (!string.IsNullOrEmpty(vm.Suburb))
                 {
-                    query = query.Where(c => c.Address.Suburb == Suburb);
+                    query = query.Where(c => c.Address.Suburb == vm.Suburb);
                 }
 
-                query = query.OrderBy(c => SearchText.Split().Length > 1
-                    ? c.FirstName.StartsWith(SearchText.Split()[0])
-                    : c.FirstName.StartsWith(SearchText))
-                    .ThenBy(c => SearchText.Split().Length > 1
-                    ? c.LastName.StartsWith(SearchText.Split()[1])
-                    : c.LastName.StartsWith(SearchText));
+                query = query.OrderBy(c => vm.SearchText.Split().Length > 1
+                    ? c.FirstName.StartsWith(vm.SearchText.Split()[0])
+                    : c.FirstName.StartsWith(vm.SearchText))
+                    .ThenBy(c => vm.SearchText.Split().Length > 1
+                    ? c.LastName.StartsWith(vm.SearchText.Split()[1])
+                    : c.LastName.StartsWith(vm.SearchText));
 
                 CustomerList = await query.ToListAsync();
             }
