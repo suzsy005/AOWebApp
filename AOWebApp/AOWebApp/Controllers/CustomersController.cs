@@ -25,43 +25,52 @@ namespace AOWebApp.Controllers
         // GET: Customers
         public async Task<IActionResult> Index(CustomerSearchViewModel vm)
         {
-            #region Suburb Query
-            var SuburbList = _context.Addresses
+
+            // set Suburb dropdonw list to View Model
+            vm.SuburbList = new SelectList(
+                await _context.Addresses
                 .Select(a => a.Suburb)
                 .Distinct()
                 .OrderBy(a => a)
-                .ToList();
+                .ToListAsync()
+            );
 
-            ViewBag.Suburb = new SelectList(SuburbList, vm.Suburb);
-            #endregion
 
-            #region Customer Query
-            List<Customer> CustomerList = new List<Customer>();
+            // prepare query for Customers
+            var query = _context.Customers
+                .Include(c => c.Address)
+                .AsQueryable();
+
+            // suburb search filter
             if (!string.IsNullOrWhiteSpace(vm.SearchText))
             {
-                var query = _context.Customers
-                    .Include(c => c.Address)
+                // filter is NOT empty
+                query = query
                     .Where(c => vm.SearchText.Split().Length > 1
                     ? c.FirstName.Equals(vm.SearchText.Split()[0]) && c.LastName.Equals(vm.SearchText.Split()[1])
                     : c.FirstName.StartsWith(vm.SearchText) || c.LastName.StartsWith(vm.SearchText));
-
-                if (!string.IsNullOrEmpty(vm.Suburb))
-                {
-                    query = query.Where(c => c.Address.Suburb == vm.Suburb);
-                }
-
-                query = query.OrderBy(c => vm.SearchText.Split().Length > 1
-                    ? c.FirstName.StartsWith(vm.SearchText.Split()[0])
-                    : c.FirstName.StartsWith(vm.SearchText))
-                    .ThenBy(c => vm.SearchText.Split().Length > 1
-                    ? c.LastName.StartsWith(vm.SearchText.Split()[1])
-                    : c.LastName.StartsWith(vm.SearchText));
-
-                CustomerList = await query.ToListAsync();
             }
-            #endregion
 
-            return View(CustomerList);
+
+            if (!string.IsNullOrEmpty(vm.Suburb))
+            {
+                query = query.Where(c => c.Address.Suburb == vm.Suburb);
+            }
+
+                //var query = _context.Customers
+                //    .Include(c => c.Address)
+                    
+                
+                //query = query.OrderBy(c => vm.SearchText.Split().Length > 1
+                //    ? c.FirstName.StartsWith(vm.SearchText.Split()[0])
+                //    : c.FirstName.StartsWith(vm.SearchText))
+                //    .ThenBy(c => vm.SearchText.Split().Length > 1
+                //    ? c.LastName.StartsWith(vm.SearchText.Split()[1])
+                //    : c.LastName.StartsWith(vm.SearchText));
+
+            vm.CustomerList = await query.ToListAsync();
+
+            return View(vm);
         }
 
         // GET: Customers/Details/5
