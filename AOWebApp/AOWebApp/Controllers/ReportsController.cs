@@ -27,7 +27,7 @@ namespace AOWebApp.Controllers
 		[Produces("application/json")]
 		public IActionResult AnnualSalesReportData(int Year)
 		{
-			if (Year == 0)
+			if (Year > 0)
 			{
 				var yearMatch = _context.ItemsInOrders
 					.Where(iio => iio.OrderNumberNavigation.OrderDate.Year == Year)
@@ -36,7 +36,7 @@ namespace AOWebApp.Controllers
 					{
 						year = group.Key.Year,
 						monthNo = group.Key.Month,
-						monthName = "",
+						monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(group.Key.Month),
 						totalItems = group.Sum(iio => iio.NumberOf),
 						totalSales = group.Sum(iio => iio.TotalItemCost),
 					})
