@@ -80,10 +80,18 @@
     const barMargin = 10;
     const barWidth = w / dataSet.length;
 
-    // 5 select all 'g' elements and bind the dataSet
+    // 5. select all 'g' elements and bind the dataSet
     let barGroups = svg
         .selectAll('g')
         .data(dataSet);
+
+    // 6. ad new bar groups
+    let newBarGroups = barGroups.enter()
+        .append('g')
+        .attr('transform', (d, i) => [
+            // returns transform="translate(x,y)"
+            return 'translate(${i * barWidth}, ${h - (d.totalItems/maxTotalItems) * h})';
+        ]); // end tranform
 
 </script>
 }
