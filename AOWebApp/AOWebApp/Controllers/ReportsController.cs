@@ -14,7 +14,13 @@ namespace AOWebApp.Controllers
 
 		public IActionResult Index()
 		{
-			return View("AnnualSalesReport");
+			var yearList = _context.CustomerOrders
+				.Select(i => i.OrderDate.Year)
+				.Distinct()
+				.OrderByDescending(i => i)
+				.ToList();
+
+			return View("AnnualSalesReport", new SelectList(yearList));
 		}
 	}
 }
