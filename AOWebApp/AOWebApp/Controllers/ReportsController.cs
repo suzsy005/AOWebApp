@@ -25,29 +25,28 @@ namespace AOWebApp.Controllers
 		}
 
 		[Produces("application/json")]
-		public IActionResult AnnualSalesReportData(int Year)
+		public IActionResult AnnualSalesReportData(int? year)
 		{
-			if (Year > 0)
-			{
-				var yearMatch = _context.ItemsInOrders
-					.Where(iio => iio.OrderNumberNavigation.OrderDate.Year == Year)
-					.GroupBy(iio => new { iio.OrderNumberNavigation.OrderDate.Year, iio.OrderNumberNavigation.OrderDate.Month })
-					.Select(group => new
-					{
-						year = group.Key.Year,
-						monthNo = group.Key.Month,
-						monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(group.Key.Month),
-						totalItems = group.Sum(iio => iio.NumberOf),
-						totalSales = group.Sum(iio => iio.TotalItemCost),
-					})
-					.OrderBy(data => data.monthNo);
 
-				return Json(null);
-			}
-			else
+			if (!year.HasValue || year.Value <= 0)
 			{
 				return BadRequest();
 			}
+			var yearMatch = _context.ItemsInOrders
+				.Where(iio => iio.OrderNumberNavigation.OrderDate.Year == year)
+				.GroupBy(iio => iio.OrderNumberNavigation.OrderDate.Month)
+				.Select(iio => new
+				{
+					year = year,
+					monthNo = iio.Key,
+					monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(iio.Key),
+					totalItems = iio.Sum(j => j.NumberOf),
+					totalSales = iio.Sum(j => j.TotalItemCost),
+				})
+				.OrderBy(iio => iio.monthNo)
+				.AsEnumerable();
+
+			return Json(yearMatch);
 		}
 
 	}

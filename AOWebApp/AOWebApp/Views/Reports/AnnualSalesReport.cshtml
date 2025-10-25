@@ -14,10 +14,13 @@
 
 <div class="row mb-3">
     <div class="col-2">
-        <select name="year" asp-items="@Model" class="form-control">
+        <select id="reportSelect" name="year" asp-items="Model" class="form-control">
             <option value="">Select...</option>
         </select>
     </div>
+
+    <ul id="itemList"></ul>
+    
 </div>
 
 
@@ -26,7 +29,38 @@
 </div>
 
 @section scripts{
-<script type="module">
+    <script type="module">
+        document.querySelector('#reportSelect')
+            .addEventListener('change', (event) => {
+                let year = event.target.value;
+                if (year.length > 0) {
+                    fetch('/Reports/AnnualSalesReportData?year=${year}')
+                    .then(response => response.json())
+                    .then(data => {
+                        let ul = document.querySalector('itemList');
+                        ul.replaceChildren();
+                        data.forEach(c => {
+                            let li = document.createElement("li");
+                            li.innerText = JSON.stringify(c);
+                            ul.appendChild(li);
+                        })
+                        buildGraph(data);
+                    })
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
     import * as d3 from "https://d3js.org/";
 
     // D3 code goes here
