@@ -34,17 +34,16 @@
             .addEventListener('change', (event) => {
                 let year = event.target.value;
                 if (year.length > 0) {
-                    fetch('/Reports/AnnualSalesReportData?year=${year}')
+                    fetch(`/Reports/AnnualSalesReportData?year=${year}`)
                     .then(response => response.json())
                     .then(data => {
-                        let ul = document.querySalector('itemList');
+                        let ul = document.querySelector('#itemList');
                         ul.replaceChildren();
                         data.forEach(c => {
                             let li = document.createElement("li");
                             li.innerText = JSON.stringify(c);
                             ul.appendChild(li);
-                        })
-                        buildGraph(data);
+                       //  buildGraph(data);
                     })
                 }
             }
@@ -61,71 +60,71 @@
 
 
 
-    import * as d3 from "https://d3js.org/";
+    // import * as d3 from "https://d3js.org/";
 
-    // D3 code goes here
-    // 1. select SVG element
-    const svg = d3.select('svg');
+    // // D3 code goes here
+    // // 1. select SVG element
+    // const svg = d3.select('svg');
 
-    // 2. determine the size of the SVG element
-    let w = svg.node().getBoundingclientRect().width;
-    let h = svg.node().getBoundingclientRect().height;
+    // // 2. determine the size of the SVG element
+    // let w = svg.node().getBoundingclientRect().width;
+    // let h = svg.node().getBoundingclientRect().height;
 
-    console.log('Width: ' + w);
-    console.log('height: ' + h);
+    // console.log('Width: ' + w);
+    // console.log('height: ' + h);
 
-    // 3. DDL(drop down list) Year Event listener
-    document
-    .querySelector('.row .col-2 [name="year"]')
-    .addEventListener('change', (event) => {
-        let year = event.target.value;
-        console.log("Year: " + year);
+    // // 3. DDL(drop down list) Year Event listener
+    // document
+    // .querySelector('.row .col-2 [name="year"]')
+    // .addEventListener('change', (event) => {
+    //     let year = event.target.value;
+    //     console.log("Year: " + year);
 
-        if (year.length > 0) {
-            fetch('Reports/AnnualSalesReportData?year=${year}')
-            .then(response => {
-                console.log("response satus: " + response.status);
-                console.log("response text: " + response.statusText);
-                return response.json();
-            })
-            .then(data => buildGraph(data))
-            .cathc(err => console.log(err.message));
-        }
-    })
+    //     if (year.length > 0) {
+    //         fetch('Reports/AnnualSalesReportData?year=${year}')
+    //         .then(response => {
+    //             console.log("response satus: " + response.status);
+    //             console.log("response text: " + response.statusText);
+    //             return response.json();
+    //         })
+    //         .then(data => buildGraph(data))
+    //         .cathc(err => console.log(err.message));
+    //     }
+    // })
 
-    // Alternate using D3:
-    d3.select('.row .col-2 [name="year"]')
-    .on('change', (event) => {
-        // fetch using event.target.value
-    })
+    // // Alternate using D3:
+    // d3.select('.row .col-2 [name="year"]')
+    // .on('change', (event) => {
+    //     // fetch using event.target.value
+    // })
 
-    function buildGraph(dataSet) {
-        console.log(dataSet);
-        // Build Graph here
+    // function buildGraph(dataSet) {
+    //     console.log(dataSet);
+    //     // Build Graph here
 
-        // 4.1 calculate the maximum value to be displayed
-        let totalItemsRange = d3.extent(dataSet, (d, i) => d.totalItems);
-        let maxTotalItems = totalItemsRange[1];
+    //     // 4.1 calculate the maximum value to be displayed
+    //     let totalItemsRange = d3.extent(dataSet, (d, i) => d.totalItems);
+    //     let maxTotalItems = totalItemsRange[1];
 
-        console.log("Max totalItems: " + maxTotalItems);
-    }
+    //     console.log("Max totalItems: " + maxTotalItems);
+    // }
 
-    // 4.2 calculating the bar dimentions
-    const barMargin = 10;
-    const barWidth = w / dataSet.length;
+    // // 4.2 calculating the bar dimentions
+    // const barMargin = 10;
+    // const barWidth = w / dataSet.length;
 
-    // 5. select all 'g' elements and bind the dataSet
-    let barGroups = svg
-        .selectAll('g')
-        .data(dataSet);
+    // // 5. select all 'g' elements and bind the dataSet
+    // let barGroups = svg
+    //     .selectAll('g')
+    //     .data(dataSet);
 
-    // 6. ad new bar groups
-    let newBarGroups = barGroups.enter()
-        .append('g')
-        .attr('transform', (d, i) => [
-            // returns transform="translate(x,y)"
-            return 'translate(${i * barWidth}, ${h - (d.totalItems/maxTotalItems) * h})';
-        ]); // end tranform
+    // // 6. ad new bar groups
+    // let newBarGroups = barGroups.enter()
+    //     .append('g')
+    //     .attr('transform', (d, i) => [
+    //         // returns transform="translate(x,y)"
+    //         return 'translate(${i * barWidth}, ${h - (d.totalItems/maxTotalItems) * h})';
+    //     ]); // end tranform
 
 </script>
 }
