@@ -19,7 +19,7 @@ namespace AOWebApp.Controllers
 			var yearList = _context.CustomerOrders
 				.Select(i => i.OrderDate.Year)
 				.Distinct()
-				.OrderByDescending(i => i);
+				.OrderBy(i => i);
 				//.ToList();
 
 			return View("AnnualSalesReport", new SelectList(yearList));
@@ -33,19 +33,19 @@ namespace AOWebApp.Controllers
 			{
 				return BadRequest();
 			}
+
 			var yearMatch = _context.ItemsInOrders
-				.Where(iio => iio.OrderNumberNavigation.OrderDate.Year == year)
-				.GroupBy(iio => iio.OrderNumberNavigation.OrderDate.Month)
-				.Select(iio => new
+				.Where(i => i.OrderNumberNavigation.OrderDate.Year == year)
+				.GroupBy(i => i.OrderNumberNavigation.OrderDate.Month)
+				.Select(i => new
 				{
-					monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(iio.Key),
-					Month = iio.Key,
+					monthName = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i.Key),
+					Month = i.Key,
 					Year = year,
-					monthNo = iio.Key,
-					totalItems = iio.Sum(iio => iio.NumberOf),
-					totalSales = iio.Sum(iio => iio.TotalItemCost),
+					totalItems = i.Sum(iio => iio.NumberOf),
+					totalSales = i.Sum(iio => iio.TotalItemCost),
 				})
-				.OrderBy(iio => iio.Month)
+				.OrderBy(i => i.Month)
 				.AsEnumerable();
 
 				return Json(yearMatch);
