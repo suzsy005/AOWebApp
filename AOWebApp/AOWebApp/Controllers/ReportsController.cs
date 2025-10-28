@@ -1,6 +1,7 @@
 ﻿using AOWebApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AOWebApp.Controllers
 {
@@ -18,8 +19,8 @@ namespace AOWebApp.Controllers
 			var yearList = _context.CustomerOrders
 				.Select(i => i.OrderDate.Year)
 				.Distinct()
-				.OrderByDescending(i => i)
-				.ToList();
+				.OrderByDescending(i => i);
+				//.ToList();
 
 			return View("AnnualSalesReport", new SelectList(yearList));
 		}
@@ -37,16 +38,17 @@ namespace AOWebApp.Controllers
 				.GroupBy(iio => iio.OrderNumberNavigation.OrderDate.Month)
 				.Select(iio => new
 				{
-					year = year,
-					monthNo = iio.Key,
 					monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(iio.Key),
-					totalItems = iio.Sum(j => j.NumberOf),
-					totalSales = iio.Sum(j => j.TotalItemCost),
+					Month = iio.Key,
+					Year = year,
+					monthNo = iio.Key,
+					totalItems = iio.Sum(iio => iio.NumberOf),
+					totalSales = iio.Sum(iio => iio.TotalItemCost),
 				})
-				.OrderBy(iio => iio.monthNo)
+				.OrderBy(iio => iio.Month)
 				.AsEnumerable();
 
-			return Json(yearMatch);
+				return Json(yearMatch);
 		}
 
 	}

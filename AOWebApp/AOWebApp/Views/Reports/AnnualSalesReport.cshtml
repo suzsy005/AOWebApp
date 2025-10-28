@@ -18,10 +18,39 @@
             <option value="">Select...</option>
         </select>
     </div>
-
     <ul id="itemList"></ul>
-    
 </div>
+
+
+<script>
+    document.querySelector('#reportSelect').addEventListener('change', (event) => {
+        let year = event.target.value;
+
+        if (year.length > 0) {
+            fetch(`/Reports/AnnualSalesReportData?year=${year}`)
+            .then(response => response.json())
+            .then(data => {
+                let ul = document.querySelector('#itemList');
+                ul = replaceChildren();
+                data.forEach(c => {
+                    let li = document.createElement("li");
+                    console.log(c);
+                    li.innerText = JSON.stringify(c);
+                    ul.appendChild(li);
+                })
+            })
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
 
 
 <div>
