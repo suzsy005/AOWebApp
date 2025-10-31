@@ -50,25 +50,23 @@
 
 @section scripts{
     <script type="module">
-        document.querySelector('#reportSelect').addEventListener('change', (event) => {
-            let year = event.target.value;
-
-            if (year.length > 0) {
-                fetch(`/Reports/AnnualSalesReportData?year=${year}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        let ul = document.querySelector('#itemList');
-                        ul.replaceChildren();
-                        data.forEach(c => {
-                            let li = document.createElement("li");
-                            console.log(c);
-                            li.innerText = JSON.stringify(c);
-                            ul.appendChild(li);
-                        })
-                        buildGraph(data);
-                    })
-            }
-        })
+		// 3. Select list Event Listener
+		document.querySelector('#reportSelect').addEventListener('change', (event) => {
+			let year = event.target.value;
+			if (year.length > 0){
+				fetch(`/Reports/AnnualSalesReportData?year=${year}`)
+				.then(response => response.json())
+				.then(data => {
+				let ul = document.querySelector('#itemList');
+					ul.replaceChildren();
+					data.forEach(c => {
+					let li = document.createElement("li");
+					li.innerText = JSON.stringify(c);
+					ul.appendChild(li);
+							})
+					buildGraph(data);
+			})
+		}})
 
     import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -77,11 +75,24 @@
     const svg = d3.select('svg');
 
     // 2. determine the size of the SVG element
-    let w = svg.node().getBoundingclientRect().width;
-    let h = svg.node().getBoundingclientRect().height;
+    let w = svg.node().getBoundingClientRect().width;
+    let h = svg.node().getBoundingClientRect().height;
 
     console.log('Width: ' + w);
     console.log('height: ' + h);
+
+    // 12 Chart Margins
+    const chartMargins = {
+        left: 40,
+        right: 25,
+        top: 25,
+        bottom: 80
+    }
+
+    w = w - (chartMargins.left + chartMargins.right);
+    h = h - (chartMargins.top + chartMargins.bottom);
+
+
 
     // 3. DDL(drop down list) Year Event listener
     document
@@ -140,7 +151,7 @@
 		console.log(`xScale: ${xScale('January')}`)
 
 
-        // 12.4 create charGroup element
+        // 12.4 create chartGroup element
 		const chartGroup = svg.append('g')
 		.classed('chartGroup', true)
 		.attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
@@ -148,8 +159,8 @@
 
 
         // 5. select all 'g' elements and bind the dataSet
-        // 12.4 append the barGroup to the charGroup
-        let barGroups = charGroup
+        // 12.4 append the barGroup to the chartGroup
+        let barGroups = chartGroup
             .selectAll('g')
             .data(dataSet);
 
@@ -180,13 +191,13 @@
 
 
 		// 11. create the y axis and add it to the svg
-        // 12.5 append the y-Axis to the charGroup
+        // 12.5 append the y-Axis to the chartGroup
 		let yAxis = d3.axisLeft(yScale);
-		charGroup.append('g')
+		chartGroup.append('g')
 		.classed('axis y', true)
 		.call(yAxis);
 
-        // 13. append the x-Axis to the charGroup
+        // 13. append the x-Axis to the chartGroup
 		let xAxis = d3.axisBottom(xScale)
 		chartGroup.append('g')
         .attr('transform', `translate(0,${h})`)
