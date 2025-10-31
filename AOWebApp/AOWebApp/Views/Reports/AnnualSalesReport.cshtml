@@ -127,9 +127,29 @@
 			.domain([0, maxTotalItems])
 			.range([h, 0]);
 
+        // 10. implement xScale
+		let monthArray = Array.from(dataSet, (d, i) => d.monthName);
+		console.log(`Month array: ${monthArray}`)
+
+		let xScale = d3.scaleBand()
+		.domain(monthArray)
+		.range([0, w])
+		.paddingInner(0.1)
+
+        // example xScale test;
+		console.log(`xScale: ${xScale('January')}`)
+
+
+        // 12.4 create charGroup element
+		const chartGroup = svg.append('g')
+		.classed('chartGroup', true)
+		.attr('transform', `translate(${chartMargins.left},${chartMargins.top})`);
+
+
 
         // 5. select all 'g' elements and bind the dataSet
-        let barGroups = svg
+        // 12.4 append the barGroup to the charGroup
+        let barGroups = charGroup
             .selectAll('g')
             .data(dataSet);
 
@@ -138,19 +158,60 @@
             .append('g')
             .attr('transform', (d, i) => [
                 // returns transform="translate(x,y)"
-                return 'translate(${i * barWidth}, ${h - (d.totalItems/maxTotalItems) * h})';
+                return 'translate(${xScale(d.monthName)},${yScale(d.totalItems)}))';
             ]); // end tranform
 
 
         // 7. append new rectangles
-        newBarGroups
-        .append('rect')
+        // 15. Adding Color and Animations
+		newBarGroups
+		.append('rect')
         .attr('x', 0) // optional line that can be left out since 0 is the default
-        .attr('height', (d, i) => { return h - yScale(d.totalItems); })
-        .attr('width', barWidth - barMargin)
-        .attr('fill', 'black')
+		//.attr('height', d => h - yScale(d.totalItems))
+		.attr('height', 0)
+		.attr('y', d => h - yScale(d.totalItems))
+		.attr('width', xScale.bandwidth())
+		.attr('fill', 'transparent')
+		.transition().duration((_,i) => i * 500)
+		.delay((_,i) => i + 200)
+		.attr('y', 0)
+		.attr('height', d => h - yScale(d.totalItems))
+		.attr('fill', (_,i) => `rgb(20,20, ${i * 15 + 80})`)
 
-        
+
+		// 11. create the y axis and add it to the svg
+        // 12.5 append the y-Axis to the charGroup
+		let yAxis = d3.axisLeft(yScale);
+		charGroup.append('g')
+		.classed('axis y', true)
+		.call(yAxis);
+
+        // 13. append the x-Axis to the charGroup
+		let xAxis = d3.axisBottom(xScale)
+		chartGroup.append('g')
+        .attr('transform', `translate(0,${h})`)
+		.classed('axis x', true)
+		.call(xAxis);
+
+        // 13.4 rotate labels
+		chartGroup.selectAll('.axis.x text')
+		.attr('transform', 'rotate(-70)')
+		.attr('dx', '-0.8em')
+		.attr('dy', '0.25em')
+		.style('text-anchor', 'end')
+		.style('font-size', '0.9em')
+
+        // 14. create Bar text
+		newBarGroups
+		.append('text')
+		.attr('text-anchor', 'middle')
+		.attr('x', d => xScale.bandwidth() / 2)
+		.attr('y', 20)
+		.attr('fill', 'white')
+		.style('font-size', '1em')
+		.text(d => d.totalItems.toLocaleString());
+
+
 
 
     }
