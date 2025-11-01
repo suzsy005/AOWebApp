@@ -48,16 +48,16 @@
     <svg width="100%" height="400px" class="border border-primary rounded p-2"></svg>
 </div>
 
-@section scripts{
+@section scripts {
     <script type="module">
 		// 3. Select list Event Listener
 		document.querySelector('#reportSelect').addEventListener('change', (event) => {
 			let year = event.target.value;
-			if (year.length > 0){
+			if (year.length > 0) {
 				fetch(`/Reports/AnnualSalesReportData?year=${year}`)
 				.then(response => response.json())
 				.then(data => {
-				let ul = document.querySelector('#itemList');
+				    let ul = document.querySelector('#itemList');
 					ul.replaceChildren();
 					data.forEach(c => {
 					let li = document.createElement("li");
@@ -65,8 +65,9 @@
 					ul.appendChild(li);
 							})
 					buildGraph(data);
-			})
-		}})
+			    })
+            }
+		})
 
     import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -122,6 +123,7 @@
     function buildGraph(dataSet) {
 
         svg.selectAll("*").remove();
+
         console.log(dataSet);
         // Build Graph here
 
@@ -163,11 +165,13 @@
         // 5. select all 'g' elements and bind the dataSet
         // 12.4 append the barGroup to the chartGroup
         let barGroups = chartGroup
-            .selectAll('g')
+            .selectAll('.bar-group')
             .data(dataSet);
 
         // 6. add new bar groups
         let newBarGroups = barGroups.enter()
+            .append('g')
+            .classed('bar-group', true)
             .attr('transform', d => `translate(${xScale(d.monthName)},${yScale(d.totalItems)})`);; // end tranform
 
 
@@ -181,11 +185,11 @@
 		.attr('y', d => h - yScale(d.totalItems))
 		.attr('width', xScale.bandwidth())
 		.attr('fill', 'transparent')
-		.transition().duration((_,i) => i * 500)
-		.delay((_,i) => i + 200)
+		.transition().duration((_, i) => i * 500)
+		.delay((_, i) => i + 200)
 		.attr('y', 0)
 		.attr('height', d => h - yScale(d.totalItems))
-		.attr('fill', (_,i) => `rgb(20,20, ${i * 15 + 80})`)
+		.attr('fill', (_, i) => `rgb(20,20, ${i * 15 + 80})`)
 
 
 		// 11. create the y axis and add it to the svg
