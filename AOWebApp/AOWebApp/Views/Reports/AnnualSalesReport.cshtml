@@ -120,6 +120,8 @@
     // })
 
     function buildGraph(dataSet) {
+
+        svg.selectAll("*").remove();
         console.log(dataSet);
         // Build Graph here
 
@@ -166,11 +168,7 @@
 
         // 6. add new bar groups
         let newBarGroups = barGroups.enter()
-            .append('g')
-            .attr('transform', (d, i) => [
-                // returns transform="translate(x,y)"
-                return 'translate(${xScale(d.monthName)},${yScale(d.totalItems)}))';
-            ]); // end tranform
+            .attr('transform', d => `translate(${xScale(d.monthName)},${yScale(d.totalItems)})`);; // end tranform
 
 
         // 7. append new rectangles
