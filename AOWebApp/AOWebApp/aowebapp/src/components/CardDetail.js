@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const CardDetail = ({ }) => {
     const [cardData, setState] = useState(); // set to empty object
-    const [itemId, setItemId] = useState(1);
+    const [itemId, setItemId] = useState(params.itemId);
 
     useEffect(() => {
         console.log("useEffect");
