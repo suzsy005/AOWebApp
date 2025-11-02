@@ -1,28 +1,23 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import Card from './components/Card'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <div className="bg-dark py-1 mb-2">
+    <div className="App container">
+        <div className="bg-light py-1 mb-2">
             <h2 className="text-center">
                 Example Application
             </h2>
         </div>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className="row justify-content-center">
+              <Card itemId="1"
+                    itemName="test records1"
+                    itemDescription="test record 1 Desc"
+                    itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
+                    itemCost="15.00"
+              />
+        </div>
     </div>
   );
 }
