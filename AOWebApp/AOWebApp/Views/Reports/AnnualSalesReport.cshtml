@@ -21,29 +21,6 @@
     <ul id="itemList"></ul>
 </div>
 
-<script>
-    document.querySelector('#reportSelect').addEventListener('change', (event) => {
-        let year = event.target.value;
-
-        if (year.length > 0) {
-            fetch(`/Reports/AnnualSalesReportData?year=${year}`)
-            .then(response => response.json())
-            .then(data => {
-                let ul = document.querySelector('#itemList');
-                ul.replaceChildren();
-                data.forEach(c => {
-                    let li = document.createElement("li");
-                    console.log(c);
-                    li.innerText = JSON.stringify(c);
-                    ul.appendChild(li);
-                })
-                buildGraph(data);
-            })
-        }
-    })
-</script>
-
-
 <div>
     <svg width="100%" height="400px" class="border border-primary rounded p-2"></svg>
 </div>
@@ -92,33 +69,6 @@
 
     w = w - (chartMargins.left + chartMargins.right);
     h = h - (chartMargins.top + chartMargins.bottom);
-
-
-
-    // // 3. DDL(drop down list) Year Event listener
-    // document
-    // .querySelector('.row .col-2 [name="year"]')
-    // .addEventListener('change', (event) => {
-    //     let year = event.target.value;
-    //     console.log("Year: " + year);
-
-    //     if (year.length > 0) {
-    //         fetch('Reports/AnnualSalesReportData?year=${year}')
-    //         .then(response => {
-    //             console.log("response satus: " + response.status);
-    //             console.log("response text: " + response.statusText);
-    //             return response.json();
-    //         })
-    //         .then(data => buildGraph(data))
-    //         .cathc(err => console.log(err.message));
-    //     }
-    // })
-
-    // // Alternate using D3:
-    // d3.select('.row .col-2 [name="year"]')
-    // .on('change', (event) => {
-    //     // fetch using event.target.value
-    // })
 
     function buildGraph(dataSet) {
 
@@ -224,10 +174,6 @@
 		.style('font-size', '1em')
 		.text(d => d.totalItems.toLocaleString());
 
-
-
-
     }
-
     </script>
 }
