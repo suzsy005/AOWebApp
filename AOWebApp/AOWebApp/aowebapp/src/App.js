@@ -3,7 +3,7 @@ import Card from './components/Card'
 import CardV2 from './components/CardV2'
 import CardV3 from './components/CardV3'
 import CardList from './components/CardListSearch'
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
   return (
@@ -22,7 +22,9 @@ function App() {
                     </div>
                 </div>
             </div>
-        </nav>
+          </nav>
+
+          <Outlet />
 
 
 

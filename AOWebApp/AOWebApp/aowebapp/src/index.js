@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter  } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import CardListSearch from "./ components / CardListSearch"
+import Contact from './routes/Contact';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -11,6 +13,14 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
         <App />
+        <Routes path="/" element={<App />}>
+            <Route path="Home" element={<Home />} />
+            <Route path="Contact" element={<Contact />} />
+            <Route path="Products" element={<CardListSearch />} />
+                <Route path="" element={<Home />} /> {/* route when URL is localhost:[port]*/ }
+            <Route path="*" element={<Home />} /> {/* route that matches anything*/ }
+
+        </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
