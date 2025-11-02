@@ -1,6 +1,8 @@
 //import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card'
+import CardV2 from './components/CardV2'
+
 
 function App() {
   return (
@@ -11,11 +13,19 @@ function App() {
             </h2>
         </div>
         <div className="row justify-content-center">
-              <Card itemId="1"
-                    itemName="test records1"
-                    itemDescription="test record 1 Desc"
-                    itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
-                    itemCost="15.00"
+              <Card
+                  itemId="1"
+                  itemName="test records1"
+                  itemDescription="test record 1 Desc"
+                  itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
+                  itemCost="15.00"
+              />
+              <CardV2
+                  itemId="2"
+                  itemName="test records2"
+                  itemDescription="test record 2 Desc"
+                  itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
+                  itemCost="10.00"
               />
         </div>
     </div>
