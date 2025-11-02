@@ -1,4 +1,4 @@
-﻿import card from "./CardV3"
+﻿import Card from "./CardV3"
 import cardData from "../assets/itemData.json"
 
 const CardList = ({ }) => {
