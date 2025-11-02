@@ -2,7 +2,7 @@
 import './App.css';
 import Card from './components/Card'
 import CardV2 from './components/CardV2'
-
+import CardV3 from './components/CardV3'
 
 function App() {
   return (
@@ -27,6 +27,14 @@ function App() {
                   itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
                   itemCost="10.00"
               />
+              <CardV3
+                  itemId="2"
+                  itemName="test records3"
+                  itemDescription="test record 3 Desc"
+                  itemImage="https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg"
+                  itemCost="5.00"
+              />
+
         </div>
     </div>
   );
