@@ -7,7 +7,6 @@ const CardListSearch = () => {
     const [cardData, setState] = useState([]);
     const [query, setQuery] = useState('');
 
-
     React.useEffect(() => {
         console.log("useEffect");
         fetch(`http://localhost:5156/api/ItemsWebAPI?searchText=${query}`)
@@ -16,11 +15,11 @@ const CardListSearch = () => {
             .catch(err => {
                 console.log(err);
             });
-    }, [])
+    }, [query])
 
     function searchQuery(evt) {
         const value = document.querySelector('[name="searchText"]').value;
-        alert('value: ' + value);
+        //alert('value: ' + value);
         setQuery(value);
     }
 
